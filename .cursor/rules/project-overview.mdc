@@ -1,0 +1,25 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Project Overview
+
+This project implements a GitHub repository loader using WebContainers, allowing users to load any GitHub repository into a browser-based sandbox and interact with it through a terminal interface.
+
+## Key Features
+
+- Browser-based Node.js runtime via WebContainers
+- Load GitHub repositories directly in the browser
+- Terminal interface to run commands against the loaded code
+- Preview panel to view running applications
+- Clean, minimal console-style UI
+
+## Main Components
+
+The main application structure:
+- [index.html](mdc:test-web/index.html) - Main HTML entry point
+- [src/main.js](mdc:test-web/src/main.js) - Core application logic and WebContainer implementation
+- [src/style.css](mdc:test-web/src/style.css) - Styling for the console UI
+- [loading.html](mdc:test-web/loading.html) - Loading screen for the iframe
+- [vite.config.js](mdc:test-web/vite.config.js) - Vite configuration with necessary CORS headers
