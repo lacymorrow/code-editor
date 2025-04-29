@@ -3,3 +3,51 @@ description:
 globs:
 alwaysApply: false
 ---
+# GitHub Repository Loading
+
+This application fetches repositories from GitHub and loads them into the WebContainer environment.
+
+## Repository Loading Process
+
+1. Validate the GitHub URL format
+2. Extract repository owner and name
+3. Fetch repository metadata to determine the default branch
+4. Fetch the file tree using GitHub's API
+5. Download individual files and write them to the WebContainer's file system
+6. Process files in batches to avoid overwhelming the browser
+
+## Key Functions
+
+### URL Validation
+
+```javascript
+function isValidGitHubUrl(url) {
+  const githubRegex = /^https:\/\/github\.com\/[a-zA-Z0-9-]+\/[a-zA-Z0-9-_.]+\/?$/
+  return githubRegex.test(url)
+}
+```
+
+### Repository Information Extraction
+
+```javascript
+function extractRepoInfo(url) {
+  const match = url.match(/github\.com\/([^\/]+)\/([^\/]+)/)
+  return {
+    user: match[1],
+    repo: match[2]
+  }
+}
+```
+
+### GitHub API Interactions
+
+The application uses the GitHub API to:
+- Fetch repository metadata: `https://api.github.com/repos/${user}/${repo}`
+- Fetch the file tree: `https://api.github.com/repos/${user}/${repo}/git/trees/${defaultBranch}?recursive=1`
+- Download raw files: `https://raw.githubusercontent.com/${user}/${repo}/${defaultBranch}/${filePath}`
+
+### Batch Processing
+
+Files are processed in batches (default 10 at a time) to prevent browser performance issues.
+
+See [src/main.js](mdc:test-web/src/main.js) for the implementation details.

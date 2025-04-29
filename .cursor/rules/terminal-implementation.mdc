@@ -3,3 +3,65 @@ description:
 globs:
 alwaysApply: false
 ---
+# Terminal Implementation
+
+The application features a terminal interface that allows users to interact with the WebContainer environment.
+
+## Terminal Features
+
+- Command input with history
+- Command execution in the WebContainer
+- Output display with automatic scrolling
+- Error handling and display
+- Special handling for development server commands
+
+## Terminal Components
+
+- `.terminal` - Container for the terminal interface
+- `.terminal-output` - Container for command output
+- `.terminal-input` - Input field for entering commands
+
+## Command Execution Flow
+
+1. User enters a command and presses Enter
+2. Command is passed to the `handleCommand` function
+3. Command is parsed into command name and arguments
+4. Special handling for `npm start` and similar commands that start a server
+5. For regular commands, `runCommand` is called
+6. Command output is captured and displayed in the terminal
+
+## Key Functions
+
+### Command Handling
+
+```javascript
+async function handleCommand(event) {
+  if (event.key !== 'Enter') return
+  
+  const command = commandInput.value.trim()
+  if (!command) return
+  
+  // Clear the input
+  commandInput.value = ''
+  
+  // Display the command in the terminal
+  writeToTerminal(`$ ${command}`)
+  
+  try {
+    // Parse the command
+    const [cmd, ...args] = command.split(' ')
+    
+    // Special handling for npm start, dev, etc.
+    if (cmd === 'npm' && ['start', 'run'].includes(args[0])) {
+      await runDevServer(command)
+    } else {
+      // For other commands
+      await runCommand(cmd, args)
+    }
+  } catch (error) {
+    writeToTerminal(`Error: ${error.message}`, true)
+  }
+}
+```
+
+See [src/main.js](mdc:test-web/src/main.js) for the complete implementation.

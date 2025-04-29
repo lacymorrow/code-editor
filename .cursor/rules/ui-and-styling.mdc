@@ -3,3 +3,63 @@ description:
 globs:
 alwaysApply: false
 ---
+# UI Structure and Styling
+
+The application uses a minimal console-style theme with clean lines, focusing on a simple and efficient user experience.
+
+## Layout Structure
+
+```
+container
+├── header
+│   ├── h1 (title)
+│   ├── repo-input
+│   │   ├── input (repo URL)
+│   │   └── button (load repo)
+│   └── status
+└── main
+    ├── terminal
+    │   ├── terminal-output
+    │   └── terminal-input
+    └── preview
+        └── iframe
+```
+
+## Key UI Components
+
+### Header Section
+
+- Title and repository input form
+- Status message area showing current operation
+
+### Terminal Section
+
+- Command output area with scrolling
+- Command input with prompt
+
+### Preview Section
+
+- iframe for displaying the running application
+- Initially shows loading.html while WebContainer initializes
+
+## Styling Highlights
+
+### Color Scheme
+
+- Dark background (`#1e1e1e`) for a modern console look
+- Light text (`#d4d4d4`) for readability
+- Accent color (`#0078d4`) for buttons and highlights
+- Error color (`#e74c3c`) for error messages
+
+### Font Selection
+
+- Monospace fonts for a terminal-like appearance
+- Consistent styling across all UI elements
+
+### Layout
+
+- Grid-based layout for clean alignment
+- Responsive design with appropriate spacing
+- Efficient use of screen space
+
+See [src/style.css](mdc:test-web/src/style.css) for the complete styling implementation.

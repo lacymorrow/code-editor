@@ -3,3 +3,51 @@ description:
 globs:
 alwaysApply: false
 ---
+# WebContainer Integration
+
+WebContainers provide a browser-based runtime for executing Node.js applications. This project leverages WebContainers to create a sandboxed environment for running GitHub repositories.
+
+## Important Considerations
+
+### Security Headers
+
+WebContainers require specific CORS headers to function:
+
+- `Cross-Origin-Opener-Policy: same-origin`
+- `Cross-Origin-Embedder-Policy: require-corp`
+
+These headers are configured in [vite.config.js](mdc:test-web/vite.config.js) to enable SharedArrayBuffer usage.
+
+### WebContainer Initialization
+
+The WebContainer is initialized in [src/main.js](mdc:test-web/src/main.js) using:
+
+```javascript
+webcontainerInstance = await WebContainer.boot()
+```
+
+### File System Operations
+
+Repository files are downloaded and written to the WebContainer's file system using:
+
+```javascript
+await webcontainerInstance.fs.writeFile(filePath, content)
+```
+
+### Command Execution
+
+Commands are executed in the WebContainer using:
+
+```javascript
+const process = await webcontainerInstance.spawn(cmd, args)
+```
+
+### Preview Panel
+
+The application preview is shown in an iframe that loads the URL from the server running in the WebContainer:
+
+```javascript
+webcontainerInstance.on('server-ready', (port, url) => {
+  iframeEl.src = url
+})
+```

@@ -3,3 +3,55 @@ description:
 globs:
 alwaysApply: false
 ---
+# Security and Deployment
+
+## Security Considerations
+
+### Cross-Origin Isolation
+
+WebContainers require cross-origin isolation to use SharedArrayBuffer:
+
+- `Cross-Origin-Opener-Policy: same-origin` - Ensures the page can only be opened by same-origin pages
+- `Cross-Origin-Embedder-Policy: require-corp` - Requires all resources to be same-origin or explicitly allow cross-origin loading
+
+Without these headers, you'll encounter errors like:
+```
+Failed to execute 'postMessage' on 'Worker': SharedArrayBuffer transfer requires self.crossOriginIsolated.
+```
+
+### Headers Configuration
+
+These headers are configured in [vite.config.js](mdc:test-web/vite.config.js):
+
+```javascript
+export default defineConfig({
+  server: {
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin',
+      'Cross-Origin-Embedder-Policy': 'require-corp',
+    },
+  },
+});
+```
+
+## Deployment Requirements
+
+### HTTPS Requirement
+
+WebContainers require HTTPS in production environments (localhost is exempt during development).
+
+When deploying:
+1. Ensure your site is served over HTTPS
+2. Configure the necessary security headers as defined above
+3. Make sure all resources used by your application are either same-origin or set up with CORS headers
+
+### GitHub API Rate Limits
+
+The application uses the GitHub API, which has rate limits:
+- Unauthenticated: 60 requests per hour
+- Authenticated: 5,000 requests per hour
+
+For production, consider implementing:
+- GitHub authentication for higher rate limits
+- Caching mechanisms to reduce API calls
+- Proper error handling for rate limit scenarios
