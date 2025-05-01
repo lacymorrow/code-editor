@@ -1,0 +1,57 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Coding Conventions
+
+This project follows specific coding conventions and patterns to maintain consistency and readability.
+
+## TypeScript
+
+- The project uses TypeScript for type safety
+- Interfaces are defined for component props and state
+- Type definitions use explicit typing rather than `any` when possible
+- Generic types are used for reusable components
+
+## React Patterns
+
+1. **Functional Components**
+   - All components are functional components with hooks
+   - No class components are used
+
+2. **Hooks**
+   - `useState` for component state
+   - `useEffect` for side effects (API calls)
+   - `useCallback` for memoized callbacks
+
+3. **State Management**
+   - Local component state with useState
+   - Props passing for parent-child communication
+   - No global state management (Redux, Context) for this simple application
+
+## File Structure
+
+- Components are in the `src/components` directory
+- Each component has its own file
+- CSS is organized with component-specific classes
+
+## Naming Conventions
+
+- PascalCase for component names and interfaces
+- camelCase for variables, functions, and methods
+- Variables that store React state setters use the `set` prefix (e.g., `setTreeData`)
+- Boolean variables use `is` or `has` prefixes (e.g., `isLoading`, `isError`)
+
+## CSS
+
+- Component classes use kebab-case (e.g., `file-viewer-header`)
+- CSS variables for theming and consistency
+- BEM-like naming for component structures
+
+## Code Formatting
+
+- 2-space indentation
+- Semi-colons at the end of statements
+- Single quotes for strings
+- Trailing commas in multi-line arrays and objects

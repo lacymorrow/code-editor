@@ -1,0 +1,42 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Component Architecture and Data Flow
+
+This application follows a simple component hierarchy with unidirectional data flow.
+
+## Component Hierarchy
+
+- `App` - Root component that sets up the overall layout
+  - `RepoBrowser` - Main component that manages repository data and state
+    - `FileViewer` - Child component that displays file contents
+
+## Data Flow
+
+### Repository Loading Process
+
+1. User inputs a GitHub repository URL in `RepoBrowser`
+2. Application validates the URL format
+3. Fetches repository metadata via GitHub API to determine the default branch
+4. Fetches the file tree using the recursive parameter
+5. Processes the flat file list into a hierarchical tree structure for react-complex-tree
+6. Renders the file tree with react-complex-tree
+
+### File Selection and Viewing
+
+1. User selects a file in the tree view
+2. The `handleSelectItems` callback in `RepoBrowser` updates the `selectedFile` state
+3. The selected file data is passed to the `FileViewer` component
+4. `FileViewer` fetches the raw content of the file using GitHub's raw content URL
+5. File content is displayed in a pre-formatted view
+
+## Key State Management
+
+The `RepoBrowser` component manages the following states:
+- Repository URL input
+- Loading and error states
+- Tree data structure
+- Selected file information
+- Repository metadata (user/repo)

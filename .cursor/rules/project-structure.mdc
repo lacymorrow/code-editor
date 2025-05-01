@@ -1,0 +1,21 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Project Structure
+
+The project is a Brutalist-style development environment with GitHub repository browsing functionality. The main components are:
+
+- [coderx/src/main.tsx](mdc:coderx/src/main.tsx) - Entry point that renders the React application
+- [coderx/src/App.tsx](mdc:coderx/src/App.tsx) - Main App component that provides the layout
+- [coderx/src/components/RepoBrowser.tsx](mdc:coderx/src/components/RepoBrowser.tsx) - Core component for browsing GitHub repositories
+- [coderx/src/components/FileViewer.tsx](mdc:coderx/src/components/FileViewer.tsx) - Component for viewing file contents
+- [coderx/src/App.css](mdc:coderx/src/App.css) - Primary CSS styles for the application
+- [coderx/src/index.css](mdc:coderx/src/index.css) - Global CSS styles including React Complex Tree overrides
+
+The application allows users to:
+1. Enter a GitHub repository URL
+2. Fetch and display the repository's file tree
+3. Navigate the file structure
+4. View the contents of selected files

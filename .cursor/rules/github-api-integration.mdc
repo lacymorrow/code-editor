@@ -1,0 +1,47 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# GitHub API Integration
+
+The application integrates with GitHub's public REST API to fetch repository information without requiring authentication for public repositories.
+
+## Key GitHub API Endpoints Used
+
+1. **Repository Metadata Endpoint**
+   - URL: `https://api.github.com/repos/{owner}/{repo}`
+   - Used to get general repository information including the default branch
+   - Implementation in [RepoBrowser.tsx](mdc:coderx/src/components/RepoBrowser.tsx)
+
+2. **Repository Tree Endpoint**
+   - URL: `https://api.github.com/repos/{owner}/{repo}/git/trees/{branch}?recursive=1`
+   - The `recursive=1` parameter retrieves the entire file tree in a single request
+   - Returns a flat list of all files and directories in the repository
+   - Note: GitHub limits this to 100,000 items; larger repositories may be truncated
+   - Implementation in [RepoBrowser.tsx](mdc:coderx/src/components/RepoBrowser.tsx)
+
+3. **Raw Content URL**
+   - URL: `https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{path}`
+   - Used to fetch the raw content of individual files
+   - Not an API endpoint but a GitHub service URL
+   - Implementation in [FileViewer.tsx](mdc:coderx/src/components/FileViewer.tsx)
+
+## Tree Data Processing
+
+The file tree returned by GitHub's API is a flat array. The application processes this into a hierarchical structure:
+
+1. Splits each file path into segments
+2. Builds a tree structure with nested children
+3. Adds metadata like type (blob/tree) and size
+4. Sorts the tree with folders first, then alphabetically
+5. Implements this in the `buildTreeData` function in [RepoBrowser.tsx](mdc:coderx/src/components/RepoBrowser.tsx)
+
+## Error Handling
+
+The application includes robust error handling for API requests:
+- Invalid repository URL formats
+- Non-existent repositories
+- API rate limiting
+- Failed network requests
+- Large repository truncation warnings

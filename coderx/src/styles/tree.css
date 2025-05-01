@@ -1,0 +1,85 @@
+/* Basic styling for the react-complex-tree component */
+.rct-tree-root {
+  box-sizing: border-box;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+.rct-tree-root-focus {
+  outline: none;
+}
+
+.rct-tree-item-title-container {
+  align-items: center;
+  display: flex;
+  position: relative;
+  width: 100%;
+}
+
+.rct-tree-item-button {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+  min-width: 20px;
+  font-weight: bold;
+}
+
+.rct-tree-items-container {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  padding-left: 20px;
+}
+
+.rct-tree-item-title {
+  cursor: pointer;
+  margin: 2px 0;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rct-tree-item-focused > .rct-tree-item-title-container {
+  background-color: #ffff00;
+  color: var(--primary-color);
+}
+
+.rct-tree-item-selected > .rct-tree-item-title-container {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.rct-tree-item-dragging-over > .rct-tree-item-title-container {
+  border-top: 2px solid var(--accent-color);
+}
+
+.rct-tree-item-dragging-over-bottom > .rct-tree-item-title-container {
+  border-bottom: 2px solid var(--accent-color);
+}
+
+.rct-tree-item-dragging {
+  opacity: 0.5;
+}
+
+.rct-tree-item-title-container-renaming {
+  position: relative;
+}
+
+.rct-tree-item-renaming-input {
+  border: none;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: inherit;
+  left: 0;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}

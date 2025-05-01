@@ -1,0 +1,67 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Styling and Brutalist Design
+
+The application follows brutalist design principles, characterized by raw, unpolished aesthetics with an emphasis on functionality and honest representation of materials.
+
+## Key Style Files
+
+- [coderx/src/App.css](mdc:coderx/src/App.css) - Main component styles
+- [coderx/src/index.css](mdc:coderx/src/index.css) - Global styles and React Complex Tree overrides
+
+## Design Principles Applied
+
+1. **Bold Typography**
+   - Monospace fonts (`--font-mono: 'Roboto Mono', monospace`)
+   - All-caps for headers (`text-transform: uppercase`)
+   - High contrast text
+
+2. **Strong Visual Elements**
+   - Thick borders (`--border-width: 4px`)
+   - High contrast color scheme (black/white with accent color)
+   - Grid-based layouts with clear separation
+
+3. **Raw Functionality**
+   - Minimal decorative elements
+   - Clear visual hierarchy
+   - Exposed structure and functionality
+
+4. **Custom Form Elements**
+   - Input fields with thick borders
+   - Bold, uppercase buttons
+   - Yellow highlight on focus states
+
+5. **Custom Scrollbars**
+   - Thick, chunky scrollbars
+   - Square edges rather than rounded corners
+   - High contrast colors
+
+## CSS Variables
+
+The design system uses CSS variables for consistency:
+
+```css
+--primary-color: #000000;
+--secondary-color: #ffffff;
+--accent-color: #ff3e00;
+--border-color: #000000;
+--text-color: #000000;
+--background-color: #ffffff;
+--container-color: #eeeeee;
+--border-width: 4px;
+--spacing-unit: 16px;
+--font-mono: 'Roboto Mono', monospace;
+--font-sans: 'Helvetica', 'Arial', sans-serif;
+```
+
+## React Complex Tree Customization
+
+The third-party React Complex Tree component is styled to match the brutalist aesthetic:
+
+- Thick borders around tree items
+- Squared corners
+- Bold interaction states
+- Monospace font for tree items

@@ -1,0 +1,71 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# React Complex Tree Integration
+
+The application uses [React Complex Tree](https://github.com/lukasbach/react-complex-tree) to display the repository file structure. This library provides an accessible, feature-rich tree component with multi-select and drag-and-drop capabilities.
+
+## Integration Points
+
+1. **Installation and Import**
+   - Installed via NPM: `npm install react-complex-tree`
+   - CSS import in [main.tsx](mdc:coderx/src/main.tsx): `import 'react-complex-tree/lib/style-modern.css'`
+   - Component imports in [RepoBrowser.tsx](mdc:coderx/src/components/RepoBrowser.tsx):
+     ```typescript
+     import {
+       UncontrolledTreeEnvironment,
+       Tree,
+       StaticTreeDataProvider
+     } from "react-complex-tree";
+     ```
+
+2. **Data Structure**
+   - The library requires a specific data structure where each tree item has:
+     - `id`: Unique identifier for the item
+     - `children`: Array of child item IDs
+     - `data`: Custom data for the item (rendered as the item's title)
+     - Additional custom properties like `isFolder`, `type`, `size`, etc.
+
+3. **Component Implementation**
+   ```typescript
+   <UncontrolledTreeEnvironment
+     dataProvider={
+       new StaticTreeDataProvider(treeData.items, (item, data) => ({
+         ...item,
+         data,
+       }))
+     }
+     getItemTitle={(item) => item.data}
+     viewState={{}}
+     canDragAndDrop={false}
+     canDropOnFolder={false}
+     canReorderItems={false}
+     onSelectItems={handleSelectItems}
+   >
+     <Tree
+       treeId="repo-tree"
+       rootItem="root"
+       treeLabel="Repository Files"
+     />
+   </UncontrolledTreeEnvironment>
+   ```
+
+## Data Conversion Process
+
+The GitHub API returns a flat file list which is converted into the nested structure required by React Complex Tree:
+
+1. Each file path is split into segments
+2. Each segment becomes a tree node with children
+3. Metadata is attached to each node (type, size, URL)
+4. The resulting structure is sorted with folders first
+
+## User Interaction
+
+The tree component handles several interactions:
+- File/folder selection
+- Folder expansion/collapse
+- Keyboard navigation
+
+The `onSelectItems` callback is used to track selected files and update the FileViewer component.
