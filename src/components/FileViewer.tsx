@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
-import Editor, { loader } from "@monaco-editor/react";
-import * as monaco from "monaco-editor";
+import Editor from "@monaco-editor/react";
+import { useEffect, useState } from "react";
 
 // Configure Monaco Loader (optional, adjust path as needed)
-loader.config({ monaco });
+// loader.config({ monaco });
 
 interface FileViewerProps {
   selectedFile: string | null;

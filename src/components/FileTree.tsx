@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import { cn } from "@/lib/utils"; // Assuming you have this utility from shadcn/ui
+import { ChevronRight, File as FileIcon, Folder } from "lucide-react"; // Icons
+import { useState } from "react";
 import {
-  Tree,
   ControlledTreeEnvironment,
+  Tree,
   TreeItem,
   TreeItemIndex,
-  TreeInformation,
-  TreeItemRenderContext,
 } from "react-complex-tree";
 import "react-complex-tree/lib/style-modern.css"; // Using modern theme
-import { cn } from "@/lib/utils"; // Assuming you have this utility from shadcn/ui
-import { ChevronRight, Folder, File as FileIcon } from "lucide-react"; // Icons
 
 // Define the structure for your custom file/folder DATA
 export interface FileTreeData {
@@ -31,7 +29,7 @@ export default function FileTree({ treeData, onSelect }: FileTreeProps) {
   const [selectedItems, setSelectedItems] = useState<TreeItemIndex[]>([]);
 
   // onSelectItems provides selected indices and the treeId
-  const handleSelect = (selectedIndices: TreeItemIndex[], treeId: string) => {
+  const handleSelect = (selectedIndices: TreeItemIndex[]) => {
     // Assuming single selection for now
     const selectedItemId = selectedIndices[0];
 
@@ -78,16 +76,7 @@ export default function FileTree({ treeData, onSelect }: FileTreeProps) {
         rootItem="root"
         treeLabel="File Explorer"
         // Destructure props based on library's RenderItemParams<DataType>
-        renderItem={({
-          item,
-          depth,
-          children,
-          title,
-          arrow,
-          context,
-          info, // info is of type TreeInformation
-        }) => {
-          const hasChildren = item.children && item.children.length > 0;
+        renderItem={({ item, depth, children, title, arrow, context }) => {
           return (
             <li
               {...context.itemContainerWithChildrenProps}
@@ -105,10 +94,7 @@ export default function FileTree({ treeData, onSelect }: FileTreeProps) {
                 )}
               >
                 {item.isFolder && (
-                  <div
-                    {...context.arrowContainerProps}
-                    className="rct-tree-item-arrow-container shrink-0 w-4 mr-1"
-                  >
+                  <div className="rct-tree-item-arrow-container shrink-0 w-4 mr-1">
                     <div {...context.interactiveElementProps}>{arrow}</div>
                   </div>
                 )}
