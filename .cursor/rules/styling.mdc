@@ -1,0 +1,12 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Styling
+
+This project uses Tailwind CSS for styling.
+
+- Tailwind CSS is configured via the `@tailwindcss/vite` plugin in [coderx/vite.config.ts](mdc:coderx/vite.config.ts).
+- The Tailwind configuration file is likely [tailwind.config.js](mdc:tailwind.config.js).
+- Global styles and Tailwind directives are likely defined in [coderx/src/index.css](mdc:coderx/src/index.css).

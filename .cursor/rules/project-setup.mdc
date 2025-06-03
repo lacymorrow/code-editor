@@ -1,0 +1,13 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Project Setup
+
+This is a React application built with Vite and TypeScript.
+
+- The main entry point is likely [coderx/src/main.tsx](mdc:coderx/src/main.tsx).
+- The root application component is likely [coderx/src/App.tsx](mdc:coderx/src/App.tsx).
+- Vite configuration is managed in [coderx/vite.config.ts](mdc:coderx/vite.config.ts). This includes aliasing `@` to the `src` directory and deduplicating `react` and `react-dom` to prevent hook errors.
+- Dependencies are managed in [package.json](mdc:package.json).

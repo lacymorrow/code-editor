@@ -1,0 +1,12 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# File Viewer Component
+
+The component responsible for displaying file content is [coderx/src/components/FileViewer.tsx](mdc:coderx/src/components/FileViewer.tsx).
+
+- It uses the Monaco Editor (`@monaco-editor/react`) to provide syntax highlighting and editing capabilities.
+- It fetches file content from GitHub raw URLs based on repository information and selected file path.
+- It dynamically determines the language for syntax highlighting based on the file extension.
