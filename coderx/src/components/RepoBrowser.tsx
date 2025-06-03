@@ -1,7 +1,8 @@
-import { useState, useCallback, useEffect } from "react";
-import FileViewer from "./FileViewer";
+import { useCallback, useEffect, useState } from "react";
+import { TreeItem, TreeItemIndex } from "react-complex-tree";
+import "../App.css";
 import FileTree, { FileTreeData } from "./FileTree";
-import { TreeItemIndex, TreeItem } from "react-complex-tree";
+import FileViewer from "./FileViewer";
 
 interface RepoInfo {
   user: string;
@@ -206,48 +207,63 @@ export default function RepoBrowser() {
   };
 
   return (
-    <div className="repo-browser">
-      <div className="repo-input-container">
-        <input
-          type="text"
-          value={repoUrl}
-          onChange={(e) => setRepoUrl(e.target.value)}
-          onKeyPress={handleKeyPress}
-          placeholder="https://github.com/username/repository"
-          className="repo-url-input"
-          disabled={isLoading}
-        />
-        <button
-          onClick={loadRepository}
-          disabled={isLoading}
-          className="load-repo-button"
-        >
-          {isLoading ? "Loading..." : "Load Repository"}
-        </button>
-      </div>
+    <div className="app">
+      <header className="header">
+        <h1 className="title">CODEX</h1>
+        <p className="subtitle">BRUTALIST DEV ENVIRONMENT</p>
+      </header>
 
-      <div className={`status-message ${isError ? "error" : ""}`}>{status}</div>
+      <main className="main">
+        <div className="browser-container">
+          <div className="repo-input-container">
+            <input
+              type="text"
+              value={repoUrl}
+              onChange={(e) => setRepoUrl(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="https://github.com/username/repository"
+              className="repo-url-input"
+              disabled={isLoading}
+            />
+            <button
+              onClick={loadRepository}
+              disabled={isLoading}
+              className="load-repo-button"
+            >
+              {isLoading ? "Loading..." : "Load Repository"}
+            </button>
+          </div>
 
-      <div className="content-container grid grid-cols-3 gap-4 p-4">
-        <div className="file-tree-container col-span-1 border rounded p-2 overflow-auto max-h-[calc(100vh-200px)]">
-          {repoInfo && Object.keys(treeData).length > 1 ? (
-            <FileTree treeData={treeData} onSelect={handleFileSelect} />
-          ) : isLoading ? (
-            <p>Loading file tree...</p>
-          ) : isError ? (
-            <p className="text-red-500">Could not load file tree.</p>
-          ) : (
-            <p>No repository loaded or tree is empty.</p>
-          )}
+          <div className={`status-message ${isError ? "error" : ""}`}>
+            {status}
+          </div>
+
+          <div className="content-container grid grid-cols-3 gap-4 p-4">
+            <div className="file-tree-container col-span-1 border rounded p-2 overflow-auto max-h-[calc(100vh-200px)]">
+              {repoInfo && Object.keys(treeData).length > 1 ? (
+                <FileTree treeData={treeData} onSelect={handleFileSelect} />
+              ) : isLoading ? (
+                <p>Loading file tree...</p>
+              ) : isError ? (
+                <p className="text-red-500">Could not load file tree.</p>
+              ) : (
+                <p>No repository loaded or tree is empty.</p>
+              )}
+            </div>
+            <div className="file-viewer-container col-span-2 border rounded overflow-auto max-h-[calc(100vh-200px)]">
+              <FileViewer
+                selectedFile={selectedFile}
+                repoInfo={repoInfo}
+                defaultBranch={defaultBranch}
+              />
+            </div>
+          </div>
         </div>
-        <div className="file-viewer-container col-span-2 border rounded overflow-auto max-h-[calc(100vh-200px)]">
-          <FileViewer
-            selectedFile={selectedFile}
-            repoInfo={repoInfo}
-            defaultBranch={defaultBranch}
-          />
-        </div>
-      </div>
+      </main>
+
+      <footer className="footer">
+        <p>© {new Date().getFullYear()} CODEX. MIT LICENSE.</p>
+      </footer>
     </div>
   );
 }

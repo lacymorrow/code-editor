@@ -1,4 +1,9 @@
 import { useState, useEffect } from "react";
+import Editor, { loader } from "@monaco-editor/react";
+import * as monaco from "monaco-editor";
+
+// Configure Monaco Loader (optional, adjust path as needed)
+loader.config({ monaco });
 
 interface FileViewerProps {
   selectedFile: string | null;
@@ -17,8 +22,42 @@ export default function FileViewer({
   const [fileContent, setFileContent] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [language, setLanguage] = useState<string>("plaintext");
 
   useEffect(() => {
+    // Determine language from file extension
+    if (selectedFile) {
+      const extension = selectedFile.split(".").pop()?.toLowerCase();
+      // Basic language mapping, can be expanded
+      switch (extension) {
+        case "js":
+        case "jsx":
+          setLanguage("javascript");
+          break;
+        case "ts":
+        case "tsx":
+          setLanguage("typescript");
+          break;
+        case "css":
+          setLanguage("css");
+          break;
+        case "html":
+          setLanguage("html");
+          break;
+        case "json":
+          setLanguage("json");
+          break;
+        case "md":
+          setLanguage("markdown");
+          break;
+        // Add more languages as needed
+        default:
+          setLanguage("plaintext");
+      }
+    } else {
+      setLanguage("plaintext");
+    }
+
     async function fetchFileContent() {
       if (!selectedFile || !repoInfo || !defaultBranch) {
         setFileContent(null);
@@ -66,25 +105,41 @@ export default function FileViewer({
     );
   }
 
+  // Handle loading and error states before rendering editor
+  if (isLoading) {
+    return <div className="file-viewer loading">Loading file content...</div>;
+  }
+
+  if (error) {
+    return <div className="file-viewer error-message">Error: {error}</div>;
+  }
+
   return (
     <div className="file-viewer">
       <div className="file-viewer-header">
         <h3>{selectedFile}</h3>
       </div>
 
-      <div className="file-viewer-content">
-        {isLoading && <div className="loading">Loading file content...</div>}
-
-        {error && <div className="error-message">Error: {error}</div>}
-
-        {!isLoading && !error && fileContent && (
-          <pre>
-            <code>{fileContent}</code>
-          </pre>
-        )}
-
-        {!isLoading && !error && !fileContent && (
-          <div className="folder-message">Could not load file content.</div>
+      <div className="file-viewer-content monaco-editor-container p-0">
+        {/* Render Monaco Editor */}
+        {fileContent !== null ? (
+          <Editor
+            height="100%" // Use container height
+            language={language}
+            value={fileContent}
+            theme="vs-dark" // Or use 'light' or other themes
+            options={{
+              readOnly: false, // Allow editing
+              minimap: { enabled: true },
+              // Add other Monaco options as needed
+            }}
+            // Add onChange handler if you need to track edits
+            // onChange={(newValue) => console.log('Content changed:', newValue)}
+          />
+        ) : (
+          <div className="folder-message">
+            Could not load file content or file is empty.
+          </div>
         )}
       </div>
     </div>

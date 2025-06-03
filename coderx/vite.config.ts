@@ -1,8 +1,8 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
 import tailwindcss from "@tailwindcss/vite"
-import { resolve, dirname } from 'path'
+import react from '@vitejs/plugin-react-swc'
+import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
+import { defineConfig } from 'vite'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -13,6 +13,7 @@ export default defineConfig({
 		alias: {
 			"@": resolve(__dirname, './src'),
 		},
+		dedupe: ['react', 'react-dom'],
 	},
 	optimizeDeps: {
 		include: ['react', 'react-dom', 'react-complex-tree']

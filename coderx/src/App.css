@@ -180,7 +180,6 @@ body {
 .file-viewer-content {
   flex: 1;
   overflow: auto;
-  padding: var(--spacing-unit);
   font-family: var(--font-mono);
 }
 

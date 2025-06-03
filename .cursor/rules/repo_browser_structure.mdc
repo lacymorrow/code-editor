@@ -3,3 +3,37 @@ description:
 globs:
 alwaysApply: false
 ---
+# Repository Browser Structure
+
+This rule describes the components involved in browsing and viewing GitHub repository files.
+
+## Core Components
+
+*   **RepoBrowser**: The main component located at [coderx/src/components/RepoBrowser.tsx](mdc:coderx/src/components/RepoBrowser.tsx). It orchestrates the process:
+    *   Takes a GitHub repository URL input.
+    *   Fetches repository metadata (like the default branch) and the file tree structure using the GitHub API.
+    *   Transforms the API response into the format required by the `FileTree` component.
+    *   Manages the state for the repository info (`repoInfo`), the tree data (`treeData`), and the currently selected file path (`selectedFile`).
+    *   Renders the `FileTree` and `FileViewer` components.
+*   **FileTree**: Located at [coderx/src/components/FileTree.tsx](mdc:coderx/src/components/FileTree.tsx). Uses the `react-complex-tree` library to display the hierarchical file structure.
+    *   Receives `treeData` (formatted as `Record<TreeItemIndex, TreeItem<FileTreeData>>`) from `RepoBrowser`.
+    *   Calls the `onSelect` prop function (passed from `RepoBrowser`) when an item is clicked, providing the selected `TreeItem<FileTreeData>`.
+*   **FileViewer**: Located at [coderx/src/components/FileViewer.tsx](mdc:coderx/src/components/FileViewer.tsx). Displays the content of the selected file.
+    *   Receives the `selectedFile` path string, `repoInfo`, and `defaultBranch` from `RepoBrowser`.
+    *   Uses these props to construct the raw GitHub content URL and fetch the file's content when `selectedFile` changes.
+
+## Data Flow
+
+1.  User enters URL in `RepoBrowser`.
+2.  `RepoBrowser` fetches repo metadata and file tree data from GitHub API.
+3.  `RepoBrowser` transforms the tree data into `Record<TreeItemIndex, TreeItem<FileTreeData>>`.
+4.  Transformed `treeData` is passed to `FileTree`.
+5.  User clicks a file in `FileTree`.
+6.  `FileTree` calls its `onSelect` prop with the selected `TreeItem<FileTreeData>`.
+7.  `RepoBrowser`'s callback (`handleFileSelect`) updates the `selectedFile` state with the path from `item.data.path`.
+8.  The updated `selectedFile` path is passed to `FileViewer`.
+9.  `FileViewer`'s `useEffect` hook fetches the content for the new path using the raw GitHub URL.
+
+## Key Data Structure
+
+*   **FileTreeData** (defined in `FileTree.tsx`): Interface representing the custom data associated with each tree node: `{ type: 'file' | 'folder'; path: string; }`. The actual nodes passed around are of type `TreeItem<FileTreeData>`.
